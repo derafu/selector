@@ -27,25 +27,45 @@ Traditional PHP methods for accessing and modifying nested data structures (`$ar
 
 ---
 
-## Features
+## 🔍 Overview
 
-- ✅ **Powerful Selector Syntax** – Access deeply nested structures with dot-notation, array indices, and conditionals.
-- ✅ **Works with Arrays & Objects** – Query any data structure seamlessly.
-- ✅ **Built-in Filtering** – Supports conditions like `users[id=123]` or `items[price>10]`.
-- ✅ **Chaining & Fluent API** – Perform multiple operations in a single statement.
-- ✅ **Zero Dependencies** – Lightweight and optimized for performance.
+Derafu Selector gives you a clean, robust way to work with nested arrays and objects in PHP. It eliminates the need for repetitive null checks, nested loops, and error-prone array access, replacing them with a powerful, declarative syntax.
+
+```php
+// Instead of this:
+$userName = isset($data['user']) && isset($data['user']['profile']) && isset($data['user']['profile']['name'])
+    ? $data['user']['profile']['name']
+    : null;
+
+// Simply write this:
+$userName = Selector::get($data, 'user.profile.name');
+
+// Or even filter arrays with conditions:
+$adminEmail = Selector::get($data, 'users[role=admin:email]');
+```
+
+## ✨ Features
+
+- ✅ **Powerful Dot Notation** - Access deeply nested data with simple paths (`user.profile.name`).
+- ✅ **Array Access** - Use numeric indices to access array elements (`items[0].name`).
+- ✅ **Filtering** - Find array elements by key/value conditions (`users[id=123:email]`).
+- ✅ **Conditional Logic** - Use ternary-like expressions (`((type) = "admin" ? (admin_role) : (user_role))`).
+- ✅ **Multiple Query Languages** - Support for native syntax, JSONPath, and JMESPath.
+- ✅ **Error Handling** - No more "undefined index" or "trying to access array offset on null" errors.
+- ✅ **Write Support** - Modify data structures with the same powerful syntax.
+- ✅ **Zero Dependencies** - Lightweight core with optional support for JSONPath and JMESPath.
 
 ---
 
-## Installation
-
-Install via Composer:
+## 📦 Installation
 
 ```bash
 composer require derafu/selector
 ```
 
-## Basic Usage
+## 🚀 Quick Start
+
+### Reading Data
 
 ```php
 use Derafu\Selector\Selector;
@@ -54,25 +74,77 @@ $data = [
     'user' => [
         'name' => 'John Doe',
         'email' => 'john@example.com',
-        'address' => [
-            'city' => 'New York',
-            'zip' => '10001'
-        ]
-    ]
+        'profile' => [
+            'avatar' => 'john.jpg',
+            'settings' => ['theme' => 'dark', 'notifications' => true],
+        ],
+        'roles' => ['editor', 'contributor'],
+    ],
+    'products' => [
+        ['id' => 101, 'name' => 'Laptop', 'price' => 999],
+        ['id' => 102, 'name' => 'Phone', 'price' => 699],
+        ['id' => 103, 'name' => 'Headphones', 'price' => 149],
+    ],
 ];
 
-// Access nested data easily.
-$name = Selector::get($data, 'user.name'); // John Doe
-$city = Selector::get($data, 'user.address.city'); // New York
+// Simple property access.
+$name = Selector::get($data, 'user.name');  // "John Doe"
 
-// Modify data.
-Selector::set($data, 'user.phone', '123-456-7890');
+// Nested properties.
+$theme = Selector::get($data, 'user.profile.settings.theme');  // "dark"
+
+// Array elements by index.
+$firstRole = Selector::get($data, 'user.roles[0]');  // "editor"
+
+// Array filtering.
+$laptop = Selector::get($data, 'products[id=101:name]');  // "Laptop"
+
+// With default values.
+$address = Selector::get($data, 'user.address', 'Not specified');  // "Not specified"
+
+// Check if a path exists.
+$hasAvatar = Selector::has($data, 'user.profile.avatar');  // true
+```
+
+### Writing Data
+
+```php
+// Set a simple value.
+Selector::set($data, 'user.address', '123 Main St');
+
+// Create nested structures automatically.
+Selector::set($data, 'user.profile.settings.language', 'en');
+
+// Update array elements.
+Selector::set($data, 'products[id=101:price]', 899);
+
+// Remove a value.
+Selector::clear($data, 'user.profile.settings.notifications');
+```
+
+### Advanced Selector Syntax
+
+```php
+// Conditional selectors.
+$role = Selector::get($data, '((user.type) = "admin" ? (admin_role) : (user_role))');
+
+// String concatenation.
+$greeting = Selector::get($data, '"Hello, "(user.name)"!"');  // "Hello, John Doe!"
+
+// OR operator for fallbacks.
+$contactInfo = Selector::get($data, 'user.phone||user.email');  // Uses email if phone is null
+
+// JSONPath integration.
+$expensiveProducts = Selector::get($data, '$.products[?(@.price > 500)].name');  // ["Laptop", "Phone"]
+
+// JMESPath integration.
+$productNames = Selector::get($data, 'jmespath:products[*].name');  // ["Laptop", "Phone", "Headphones"]
 ```
 
 ## Contributing
 
-Contributions are welcome! Feel free to submit a Pull Request.
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
-This library is licensed under the MIT License. See the `LICENSE` file for more details.
+This package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
