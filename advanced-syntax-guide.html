@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derafu: Selector - Elegant Data Structure Navigation for PHP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://derafu.org/foundation/css/styles.min.css" rel="stylesheet" />
+    </head>
+<body class="derafu-theme-earthstone">
+                <div id="header-container" class="sticky-top"></div>
+    
+            <div class="container">
+            <div class="row">
+                <main class="col-md-10">
+                    <div class="container py-4">
+    <div class="markdown-body"><h1><a id="content-advanced-selector-syntax-guide" href="advanced-syntax-guide.html#content-advanced-selector-syntax-guide" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Advanced Selector Syntax Guide</h1>
+<p>This guide covers the advanced selector syntax features that make Derafu Selector powerful for complex data manipulation.</p>
+<ul class="table-of-contents">
+<li><a href="advanced-syntax-guide.html#content-string-literals-and-concatenation">String Literals and Concatenation</a></li>
+<li><a href="advanced-syntax-guide.html#content-or-operator-for-fallbacks">OR Operator for Fallbacks</a></li>
+<li><a href="advanced-syntax-guide.html#content-conditional-ternary-selectors">Conditional (Ternary) Selectors</a></li>
+<li><a href="advanced-syntax-guide.html#content-dependent-selectors">Dependent Selectors</a></li>
+<li><a href="advanced-syntax-guide.html#content-comparison-operators">Comparison Operators</a></li>
+<li><a href="advanced-syntax-guide.html#content-special-functions">Special Functions</a></li>
+<li><a href="advanced-syntax-guide.html#content-parentheses-and-escaping">Parentheses and Escaping</a></li>
+</ul>
+<h2><a id="content-string-literals-and-concatenation" href="advanced-syntax-guide.html#content-string-literals-and-concatenation" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>String Literals and Concatenation</h2>
+<p>You can include literal strings in your selectors and concatenate them with values from your data:</p>
+<pre><code class="language-php">$data = ['user' =&gt; ['name' =&gt; 'John']];
+
+// Simple string concatenation.
+$greeting = Selector::get($data, '&quot;Hello, &quot;(user.name)&quot;!&quot;');
+// &quot;Hello, John!&quot;
+
+// Multiple concatenations.
+$message = Selector::get($data, '&quot;User &quot;(user.name)&quot; logged in at &quot;(timestamp)');
+// &quot;User John logged in at 2023-04-15 10:30:45&quot;
+</code></pre>
+<h2><a id="content-or-operator-for-fallbacks" href="advanced-syntax-guide.html#content-or-operator-for-fallbacks" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>OR Operator for Fallbacks</h2>
+<p>The <code>||</code> operator provides fallback values when a selector path doesn’t exist or returns null:</p>
+<pre><code class="language-php">$data = [
+    'user' =&gt; [
+        'name' =&gt; 'John',
+        'email' =&gt; 'john@example.com',
+        // phone is not set
+    ],
+];
+
+// Use email if phone doesn't exist.
+$contact = Selector::get($data, 'user.phone||user.email');
+// &quot;john@example.com&quot;
+
+// Chains of fallbacks.
+$identifier = Selector::get($data, 'user.id||user.username||user.email');
+// &quot;john@example.com&quot;
+
+// Fallback to a literal string.
+$phone = Selector::get($data, 'user.phone||&quot;Not provided&quot;');
+// &quot;Not provided&quot;
+
+// Combine with string concatenation.
+$phoneDisplay = Selector::get($data, '&quot;Phone: &quot;(user.phone||&quot;N/A&quot;)');
+// &quot;Phone: N/A&quot;
+</code></pre>
+<h2><a id="content-conditional-ternary-selectors" href="advanced-syntax-guide.html#content-conditional-ternary-selectors" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Conditional (Ternary) Selectors</h2>
+<p>Conditionals let you choose between different selector paths based on conditions:</p>
+<pre><code class="language-php">$data = [
+    'user' =&gt; [
+        'type' =&gt; 'admin',
+        'admin_role' =&gt; 'super_admin',
+        'user_role' =&gt; 'regular',
+    ],
+];
+
+// Simple condition using equality.
+$role = Selector::get($data,
+    '((user.type) = &quot;admin&quot; ? (user.admin_role) : (user.user_role))'
+); // &quot;super_admin&quot;
+
+// Using not equal.
+$accessLevel = Selector::get($data,
+    '((user.type) != &quot;guest&quot; ? (&quot;authenticated&quot;) : (&quot;anonymous&quot;))'
+); // &quot;authenticated&quot;
+
+// Numeric comparisons.
+$data = ['score' =&gt; 85];
+$grade = Selector::get($data,
+    '((score) &gt;= &quot;90&quot; ? (&quot;A&quot;) : ((score) &gt;= &quot;80&quot; ? (&quot;B&quot;) : (&quot;C&quot;)))'
+); // &quot;B&quot;
+</code></pre>
+<h2><a id="content-dependent-selectors" href="advanced-syntax-guide.html#content-dependent-selectors" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Dependent Selectors</h2>
+<p>Find and access specific elements in arrays based on key/value matching:</p>
+<pre><code class="language-php">$data = [
+    'users' =&gt; [
+        ['id' =&gt; 101, 'name' =&gt; 'John', 'email' =&gt; 'john@example.com'],
+        ['id' =&gt; 102, 'name' =&gt; 'Jane', 'email' =&gt; 'jane@example.com'],
+        ['id' =&gt; 103, 'name' =&gt; 'Bob', 'email' =&gt; 'bob@example.com'],
+    ],
+];
+
+// Get the name of user with id 102.
+$name = Selector::get($data, 'users[id=102:name]');
+// &quot;Jane&quot;
+
+// Get the email of user with id 101.
+$email = Selector::get($data, 'users[id=101:email]');
+// &quot;john@example.com&quot;
+
+// Nested properties.
+$data = [
+    'orders' =&gt; [
+        [
+            'id' =&gt; 1001,
+            'customer' =&gt; ['id' =&gt; 101, 'name' =&gt; 'John'],
+            'items' =&gt; [['product' =&gt; 'Laptop', 'price' =&gt; 999]],
+        ],
+        [
+            'id' =&gt; 1002,
+            'customer' =&gt; ['id' =&gt; 102, 'name' =&gt; 'Jane'],
+            'items' =&gt; [['product' =&gt; 'Phone', 'price' =&gt; 699]],
+        ],
+    ],
+];
+
+// Get Jane's first order item.
+$janeProduct = Selector::get($data, 'orders[id=1002:items][0].product');
+// &quot;Phone&quot;
+
+// Access by string values with special characters.
+$data = [
+    'categories' =&gt; [
+        ['id' =&gt; 'cat-1', 'name' =&gt; 'Electronics'],
+        ['id' =&gt; 'cat-2', 'name' =&gt; 'Books']
+    ]
+];
+
+$catName = Selector::get($data, 'categories[id=cat-1:name]');
+// &quot;Electronics&quot;
+</code></pre>
+<h2><a id="content-comparison-operators" href="advanced-syntax-guide.html#content-comparison-operators" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Comparison Operators</h2>
+<p>Conditional selectors support several comparison operators:</p>
+<pre><code class="language-php">$data = [
+    'product' =&gt; [
+        'price' =&gt; 50,
+        'stock' =&gt; 10,
+        'name' =&gt; 'Gadget',
+        'tags' =&gt; ['electronics', 'new'],
+    ],
+];
+
+// Equality.
+$isGadget = Selector::get($data,
+    '((product.name) = &quot;Gadget&quot; ? (&quot;Yes&quot;) : (&quot;No&quot;))'
+); // &quot;Yes&quot;
+
+// Not equal.
+$isExpensive = Selector::get($data,
+    '((product.price) != &quot;100&quot; ? (&quot;Affordable&quot;) : (&quot;Expensive&quot;))'
+); // &quot;Affordable&quot;
+
+// Greater than.
+$priceTier = Selector::get($data,
+    '((product.price) &gt; &quot;75&quot; ? (&quot;Premium&quot;) : (&quot;Standard&quot;))'
+); // &quot;Standard&quot;
+
+// Less than or equal.
+$stockStatus = Selector::get($data,
+    '((product.stock) &lt;= &quot;5&quot; ? (&quot;Low Stock&quot;) : (&quot;In Stock&quot;))'
+); // &quot;In Stock&quot;
+
+// Contains (for arrays and strings).
+$isNew = Selector::get($data,
+    '((product.tags) contains &quot;new&quot; ? (&quot;New Arrival&quot;) : (&quot;Regular Item&quot;))'
+); // &quot;New Arrival&quot;
+
+// Length check.
+$nameLength = Selector::get($data,
+    '((product.name) length &quot;6&quot; ? (&quot;Six Letters&quot;) : (&quot;Other Length&quot;))'
+); // &quot;Six Letters&quot;
+
+// Null check.
+$data['product']['description'] = null;
+$hasDescription = Selector::get($data,
+    '((product.description) is &quot;null&quot; ? (&quot;No Description&quot;) : (&quot;Has Description&quot;))'
+); // &quot;No Description&quot;
+</code></pre>
+<h2><a id="content-special-functions" href="advanced-syntax-guide.html#content-special-functions" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Special Functions</h2>
+<p>The selector syntax includes several special functions:</p>
+<pre><code class="language-php">$data = [
+    'product' =&gt; [
+        'name' =&gt; 'Gadget',
+        'price' =&gt; 49.99,
+        'tags' =&gt; ['electronics', 'gadget', 'new'],
+    ],
+];
+
+// contains - check if an array or string contains a value.
+$hasTag = Selector::get($data,
+    '((product.tags) contains &quot;gadget&quot; ? (&quot;Tagged as gadget&quot;) : (&quot;Not tagged&quot;))'
+); // &quot;Tagged as gadget&quot;
+
+// length - check the length of a string or array.
+$tagCount = Selector::get($data,
+    '((product.tags) length &quot;3&quot; ? (&quot;Has 3 tags&quot;) : (&quot;Has another tag count&quot;))'
+); // &quot;Has 3 tags&quot;
+
+$nameLength = Selector::get($data,
+    '((product.name) length &quot;6&quot; ? (&quot;Name has 6 chars&quot;) : (&quot;Name has different length&quot;))'
+); // &quot;Name has 6 chars&quot;
+
+// is - check the type of a value (currently supports null checks).
+$hasDescription = Selector::get($data,
+    '((product.description) is &quot;null&quot; ? (&quot;No description&quot;) : (&quot;Has description&quot;))'
+); // &quot;No description&quot;
+</code></pre>
+<h2><a id="content-parentheses-and-escaping" href="advanced-syntax-guide.html#content-parentheses-and-escaping" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Parentheses and Escaping</h2>
+<p>The selector syntax uses parentheses and quotes extensively:</p>
+<pre><code class="language-php">// (selector) extracts a value from the data
+// &quot;string&quot; is a literal string
+
+$data = ['message' =&gt; 'Hello World'];
+
+// Simple extraction.
+$msg = Selector::get($data, '(message)'); // &quot;Hello World&quot;
+
+// Literal string.
+$literal = Selector::get($data, '&quot;Static text&quot;'); // &quot;Static text&quot;
+
+// Concatenating extractions and literals.
+$full = Selector::get($data, '(message)&quot; - welcome!&quot;'); // &quot;Hello World - welcome!&quot;
+
+// Escaping quotes and parentheses.
+$escaped = Selector::get($data, '&quot;This is a \\&quot;quoted\\&quot; string&quot;'); // 'This is a &quot;quoted&quot; string'
+$parentheses = Selector::get($data, '&quot;Formula: (x + y)&quot;'); // &quot;Formula: (x + y)&quot;
+
+// Nested parentheses for complex expressions.
+$nested = Selector::get($data, '((message) = &quot;Hello World&quot; ? (&quot;Greeting&quot;) : (&quot;Other message&quot;))');
+// &quot;Greeting&quot;
+</code></pre>
+<hr />
+<p>For even more advanced capabilities, explore the integration with JSONPath and JMESPath in their respective guides.</p>
+</div>
+</div>
+                </main>
+                <div class="col-md-2 py-4">
+                    <div class="list-group mb-4">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                            <div class="fw-bold">Package Info</div>
+                            <span class="smal text-muted">derafu/selector</span>
+                            </div>
+                        </li>
+                        <a class="list-group-item list-group-item-action " href="index.html">
+                            README
+                        </a>
+                    </div>
+                    <div class="list-group mb-4">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                            <div class="fw-bold">Docs</div>
+                            <span class="smal text-muted">Guides & Examples</span>
+                            </div>
+                        </li>
+
+                        <a class="list-group-item list-group-item-action " href="basic-usage-guide.html">
+                            Basic Usage Guide
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="arrays-and-filters-guide.html">
+                            Working with Arrays and Filters
+                        </a>
+                        <a class="list-group-item list-group-item-action active" href="advanced-syntax-guide.html">
+                            Advanced Selector Syntax Guide
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="jsonpath-guide.html">
+                            JSONPath Integration
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="jmespath-guide.html">
+                            JMESPath Integration
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+            <div id="footer-container"></div>
+<script src="https://derafu.org/foundation/js/derafu.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    </body>
+</html>

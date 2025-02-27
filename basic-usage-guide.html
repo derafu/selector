@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derafu: Selector - Elegant Data Structure Navigation for PHP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://derafu.org/foundation/css/styles.min.css" rel="stylesheet" />
+    </head>
+<body class="derafu-theme-earthstone">
+                <div id="header-container" class="sticky-top"></div>
+    
+            <div class="container">
+            <div class="row">
+                <main class="col-md-10">
+                    <div class="container py-4">
+    <div class="markdown-body"><h1><a id="content-basic-usage-guide" href="basic-usage-guide.html#content-basic-usage-guide" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Basic Usage Guide</h1>
+<p>This guide covers the fundamentals of working with Derafu Selector for navigating and manipulating data structures.</p>
+<ul class="table-of-contents">
+<li><a href="basic-usage-guide.html#content-reading-data">Reading Data</a>
+<ul>
+<li><a href="basic-usage-guide.html#content-basic-dot-notation">Basic Dot Notation</a></li>
+<li><a href="basic-usage-guide.html#content-default-values">Default Values</a></li>
+<li><a href="basic-usage-guide.html#content-array-access">Array Access</a></li>
+<li><a href="basic-usage-guide.html#content-combining-dot-notation-and-array-access">Combining Dot Notation and Array Access</a></li>
+</ul>
+</li>
+<li><a href="basic-usage-guide.html#content-writing-data">Writing Data</a>
+<ul>
+<li><a href="basic-usage-guide.html#content-setting-simple-values">Setting Simple Values</a></li>
+<li><a href="basic-usage-guide.html#content-creating-nested-structures">Creating Nested Structures</a></li>
+<li><a href="basic-usage-guide.html#content-working-with-arrays">Working with Arrays</a></li>
+<li><a href="basic-usage-guide.html#content-merging-arrays">Merging Arrays</a></li>
+</ul>
+</li>
+<li><a href="basic-usage-guide.html#content-checking-if-paths-exist">Checking if Paths Exist</a></li>
+<li><a href="basic-usage-guide.html#content-clearing-values">Clearing Values</a></li>
+<li><a href="basic-usage-guide.html#content-working-with-different-data-types">Working with Different Data Types</a></li>
+<li><a href="basic-usage-guide.html#content-error-handling">Error Handling</a></li>
+</ul>
+<h2><a id="content-reading-data" href="basic-usage-guide.html#content-reading-data" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Reading Data</h2>
+<p>The most common operation with Selector is to read values from complex data structures. The <code>get()</code> method provides a clean, safe way to extract values without worry about undefined indices or null values.</p>
+<h3><a id="content-basic-dot-notation" href="basic-usage-guide.html#content-basic-dot-notation" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Basic Dot Notation</h3>
+<pre><code class="language-php">use Derafu\Selector\Selector;
+
+$data = [
+    'user' =&gt; [
+        'name' =&gt; 'John Doe',
+        'email' =&gt; 'john@example.com',
+        'profile' =&gt; [
+            'avatar' =&gt; 'john.jpg',
+        ],
+    ],
+];
+
+// Simple property access.
+$name = Selector::get($data, 'user.name');  // &quot;John Doe&quot;
+
+// Nested properties.
+$avatar = Selector::get($data, 'user.profile.avatar');  // &quot;john.jpg&quot;
+
+// Non-existent path returns null.
+$age = Selector::get($data, 'user.age');  // null
+</code></pre>
+<h3><a id="content-default-values" href="basic-usage-guide.html#content-default-values" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Default Values</h3>
+<p>You can provide a default value that will be returned if the selector path doesn’t exist:</p>
+<pre><code class="language-php">// With default value
+$address = Selector::get($data, 'user.address', 'No address provided');  // &quot;No address provided&quot;
+</code></pre>
+<h3><a id="content-array-access" href="basic-usage-guide.html#content-array-access" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Array Access</h3>
+<p>Access array elements by index:</p>
+<pre><code class="language-php">$data = [
+    'items' =&gt; ['apple', 'banana', 'cherry'],
+];
+
+$firstItem = Selector::get($data, 'items[0]');  // &quot;apple&quot;
+$lastItem = Selector::get($data, 'items[2]');   // &quot;cherry&quot;
+</code></pre>
+<h3><a id="content-combining-dot-notation-and-array-access" href="basic-usage-guide.html#content-combining-dot-notation-and-array-access" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Combining Dot Notation and Array Access</h3>
+<pre><code class="language-php">$data = [
+    'categories' =&gt; [
+        'fruits' =&gt; ['apple', 'banana', 'cherry'],
+        'vegetables' =&gt; ['carrot', 'broccoli', 'spinach'],
+    ],
+];
+
+$firstFruit = Selector::get($data, 'categories.fruits[0]');  // &quot;apple&quot;
+$secondVegetable = Selector::get($data, 'categories.vegetables[1]');  // &quot;broccoli&quot;
+</code></pre>
+<h2><a id="content-writing-data" href="basic-usage-guide.html#content-writing-data" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Writing Data</h2>
+<p>Writing data is just as easy as reading it. The <code>set()</code> method handles creating intermediate structures as needed.</p>
+<h3><a id="content-setting-simple-values" href="basic-usage-guide.html#content-setting-simple-values" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Setting Simple Values</h3>
+<pre><code class="language-php">$data = ['user' =&gt; ['name' =&gt; 'John']];
+
+// Update an existing value.
+Selector::set($data, 'user.name', 'Jane');
+// $data is now ['user' =&gt; ['name' =&gt; 'Jane']]
+
+// Create a new property.
+Selector::set($data, 'user.email', 'jane@example.com');
+// $data is now ['user' =&gt; ['name' =&gt; 'Jane', 'email' =&gt; 'jane@example.com']]
+</code></pre>
+<h3><a id="content-creating-nested-structures" href="basic-usage-guide.html#content-creating-nested-structures" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Creating Nested Structures</h3>
+<p>Selector will automatically create intermediate arrays:</p>
+<pre><code class="language-php">$data = [];
+
+// Create a deep structure.
+Selector::set($data, 'settings.theme.colors.primary', '#3366FF');
+// $data is now ['settings' =&gt; ['theme' =&gt; ['colors' =&gt; ['primary' =&gt; '#3366FF']]]]
+</code></pre>
+<h3><a id="content-working-with-arrays" href="basic-usage-guide.html#content-working-with-arrays" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Working with Arrays</h3>
+<pre><code class="language-php">$data = ['items' =&gt; ['apple', 'banana']];
+
+// Add or update an array element.
+Selector::set($data, 'items[2]', 'cherry');
+// $data is now ['items' =&gt; ['apple', 'banana', 'cherry']]
+
+// Update a specific element.
+Selector::set($data, 'items[0]', 'red apple');
+// $data is now ['items' =&gt; ['red apple', 'banana', 'cherry']]
+</code></pre>
+<h3><a id="content-merging-arrays" href="basic-usage-guide.html#content-merging-arrays" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Merging Arrays</h3>
+<p>When setting an array value to an existing array path, the arrays are merged:</p>
+<pre><code class="language-php">$data = [
+    'settings' =&gt; [
+        'display' =&gt; ['theme' =&gt; 'light'],
+    ],
+];
+
+Selector::set($data, 'settings.display', ['fontSize' =&gt; 'large']);
+// $data is now ['settings' =&gt; ['display' =&gt; ['theme' =&gt; 'light', 'fontSize' =&gt; 'large']]]
+</code></pre>
+<h2><a id="content-checking-if-paths-exist" href="basic-usage-guide.html#content-checking-if-paths-exist" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Checking if Paths Exist</h2>
+<p>The <code>has()</code> method checks if a value exists at the specified path:</p>
+<pre><code class="language-php">$data = [
+    'user' =&gt; [
+        'name' =&gt; 'John',
+        'email' =&gt; null,
+    ],
+];
+
+Selector::has($data, 'user.name');      // true
+Selector::has($data, 'user.email');     // false (because the value is null)
+Selector::has($data, 'user.address');   // false (path doesn't exist)
+</code></pre>
+<h2><a id="content-clearing-values" href="basic-usage-guide.html#content-clearing-values" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Clearing Values</h2>
+<p>Remove values from the data structure with the <code>clear()</code> method:</p>
+<pre><code class="language-php">$data = [
+    'user' =&gt; [
+        'name' =&gt; 'John',
+        'email' =&gt; 'john@example.com',
+        'settings' =&gt; ['theme' =&gt; 'dark'],
+    ],
+];
+
+// Remove a simple property.
+Selector::clear($data, 'user.email');
+// $data is now ['user' =&gt; ['name' =&gt; 'John', 'settings' =&gt; ['theme' =&gt; 'dark']]]
+
+// Remove a nested property.
+Selector::clear($data, 'user.settings.theme');
+// $data is now ['user' =&gt; ['name' =&gt; 'John', 'settings' =&gt; []]]
+
+// Parent arrays are cleaned up if they become empty.
+Selector::clear($data, 'user.name');
+// $data is now ['user' =&gt; ['settings' =&gt; []]]
+</code></pre>
+<h2><a id="content-working-with-different-data-types" href="basic-usage-guide.html#content-working-with-different-data-types" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Working with Different Data Types</h2>
+<p>Selector handles various data types properly:</p>
+<pre><code class="language-php">$data = [
+    'values' =&gt; [
+        'string' =&gt; 'text',
+        'number' =&gt; 42,
+        'boolean' =&gt; true,
+        'null_value' =&gt; null,
+        'array' =&gt; [1, 2, 3],
+        'object' =&gt; ['key' =&gt; 'value'],
+    ],
+];
+
+Selector::get($data, 'values.string');     // &quot;text&quot;
+Selector::get($data, 'values.number');     // 42
+Selector::get($data, 'values.boolean');    // true
+Selector::get($data, 'values.null_value'); // null
+Selector::get($data, 'values.array');      // [1, 2, 3]
+Selector::get($data, 'values.object');     // ['key' =&gt; 'value']
+</code></pre>
+<h2><a id="content-error-handling" href="basic-usage-guide.html#content-error-handling" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Error Handling</h2>
+<p>Selector is designed to be forgiving and avoid common PHP errors:</p>
+<pre><code class="language-php">// No &quot;undefined index&quot; errors.
+Selector::get($data, 'non.existent.path');  // returns null
+
+// No &quot;trying to access array offset on null&quot; errors.
+$data = ['user' =&gt; null];
+Selector::get($data, 'user.name');  // returns null
+
+// However, if you have syntax errors in your selector, you'll get a SelectorException.
+try {
+    Selector::get($data, 'user..name');  // Invalid selector with double dot
+} catch (\Derafu\Selector\Exception\SelectorException $e) {
+    echo $e-&gt;getMessage();  // &quot;Failed to read using selector 'user..name'...&quot;
+}
+</code></pre>
+<hr />
+<p>For more advanced usage, check out the other guides in the documentation.</p>
+</div>
+</div>
+                </main>
+                <div class="col-md-2 py-4">
+                    <div class="list-group mb-4">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                            <div class="fw-bold">Package Info</div>
+                            <span class="smal text-muted">derafu/selector</span>
+                            </div>
+                        </li>
+                        <a class="list-group-item list-group-item-action " href="index.html">
+                            README
+                        </a>
+                    </div>
+                    <div class="list-group mb-4">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                            <div class="fw-bold">Docs</div>
+                            <span class="smal text-muted">Guides & Examples</span>
+                            </div>
+                        </li>
+
+                        <a class="list-group-item list-group-item-action active" href="basic-usage-guide.html">
+                            Basic Usage Guide
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="arrays-and-filters-guide.html">
+                            Working with Arrays and Filters
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="advanced-syntax-guide.html">
+                            Advanced Selector Syntax Guide
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="jsonpath-guide.html">
+                            JSONPath Integration
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="jmespath-guide.html">
+                            JMESPath Integration
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+            <div id="footer-container"></div>
+<script src="https://derafu.org/foundation/js/derafu.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    </body>
+</html>

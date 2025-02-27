@@ -1,1 +1,225 @@
-Soon.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derafu: Selector - Elegant Data Structure Navigation for PHP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://derafu.org/foundation/css/styles.min.css" rel="stylesheet" />
+    </head>
+<body class="derafu-theme-earthstone">
+                <div id="header-container" class="sticky-top"></div>
+    
+            <div class="container">
+            <div class="row">
+                <main class="col-md-10">
+                    <div class="container py-4">
+    <div class="markdown-body"><h1><a id="content-derafu-selector---elegant-data-structure-navigation-for-php" href="index.html#content-derafu-selector---elegant-data-structure-navigation-for-php" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Derafu: Selector - Elegant Data Structure Navigation for PHP</h1>
+<p><a rel="nofollow noopener noreferrer" target="_blank" class="external-link" href="https://github.com/derafu/selector/actions/workflows/ci.yml?query=branch%3Amain"><img src="https://github.com/derafu/selector/actions/workflows/ci.yml/badge.svg?branch=main&amp;event=push" alt="CI Workflow" /></a>
+<a rel="nofollow noopener noreferrer" target="_blank" class="external-link" href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a></p>
+<p>A powerful, flexible, and efficient PHP library for querying, extracting, and modifying complex data structures using a <strong>declarative selector syntax</strong>.</p>
+<h2><a id="content-why-derafuselector" href="index.html#content-why-derafuselector" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Why Derafu\Selector?</h2>
+<h3><a id="content--a-smarter-way-to-work-with-data-structures" href="index.html#content--a-smarter-way-to-work-with-data-structures" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>🚀 <strong>A Smarter Way to Work with Data Structures</strong></h3>
+<p>Traditional PHP methods for accessing and modifying nested data structures (<code>$array['key']['subkey']</code>) are:</p>
+<ul>
+<li><strong>Error-prone</strong>: Risk of <code>Undefined index</code> or <code>Trying to access array offset on null</code> errors.</li>
+<li><strong>Verbose &amp; Hard to Read</strong>: Requires multiple <code>isset()</code> checks and deep nesting.</li>
+<li><strong>Limited</strong>: No built-in support for <strong>filters, conditional selectors, or transformations</strong>.</li>
+</ul>
+<h3><a id="content--what-makes-derafuselector-unique" href="index.html#content--what-makes-derafuselector-unique" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>🔥 <strong>What Makes Derafu\Selector Unique?</strong></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Derafu\Selector</th>
+<th>PHP Native (<code>isset()</code> &amp; loops)</th>
+<th>Other Libraries</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dot-Notation Access</strong></td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+<td>⚠️ Limited</td>
+</tr>
+<tr>
+<td><strong>Nested Selection with Conditions</strong></td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+<td>⚠️ Limited</td>
+</tr>
+<tr>
+<td><strong>Dynamic Path Resolution</strong></td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+<td>⚠️ Varies</td>
+</tr>
+<tr>
+<td><strong>Auto-Handles Undefined Keys</strong></td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+<td>⚠️ Partial</td>
+</tr>
+<tr>
+<td><strong>Filters &amp; Expressions</strong></td>
+<td>✅ Yes</td>
+<td>❌ No</td>
+<td>⚠️ Partial</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2><a id="content--overview" href="index.html#content--overview" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>🔍 Overview</h2>
+<p>Derafu Selector gives you a clean, robust way to work with nested arrays and objects in PHP. It eliminates the need for repetitive null checks, nested loops, and error-prone array access, replacing them with a powerful, declarative syntax.</p>
+<pre><code class="language-php">// Instead of this:
+$userName = isset($data['user']) &amp;&amp; isset($data['user']['profile']) &amp;&amp; isset($data['user']['profile']['name'])
+    ? $data['user']['profile']['name']
+    : null;
+
+// Simply write this:
+$userName = Selector::get($data, 'user.profile.name');
+
+// Or even filter arrays with conditions:
+$adminEmail = Selector::get($data, 'users[role=admin:email]');
+</code></pre>
+<h2><a id="content--features" href="index.html#content--features" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>✨ Features</h2>
+<ul>
+<li>✅ <strong>Powerful Dot Notation</strong> - Access deeply nested data with simple paths (<code>user.profile.name</code>).</li>
+<li>✅ <strong>Array Access</strong> - Use numeric indices to access array elements (<code>items[0].name</code>).</li>
+<li>✅ <strong>Filtering</strong> - Find array elements by key/value conditions (<code>users[id=123:email]</code>).</li>
+<li>✅ <strong>Conditional Logic</strong> - Use ternary-like expressions (<code>((type) = &quot;admin&quot; ? (admin_role) : (user_role))</code>).</li>
+<li>✅ <strong>Multiple Query Languages</strong> - Support for native syntax, JSONPath, and JMESPath.</li>
+<li>✅ <strong>Error Handling</strong> - No more “undefined index” or “trying to access array offset on null” errors.</li>
+<li>✅ <strong>Write Support</strong> - Modify data structures with the same powerful syntax.</li>
+<li>✅ <strong>Zero Dependencies</strong> - Lightweight core with optional support for JSONPath and JMESPath.</li>
+</ul>
+<hr />
+<h2><a id="content--installation" href="index.html#content--installation" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>📦 Installation</h2>
+<pre><code class="language-bash">composer require derafu/selector
+</code></pre>
+<h2><a id="content--quick-start" href="index.html#content--quick-start" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>🚀 Quick Start</h2>
+<h3><a id="content-reading-data" href="index.html#content-reading-data" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Reading Data</h3>
+<pre><code class="language-php">use Derafu\Selector\Selector;
+
+$data = [
+    'user' =&gt; [
+        'name' =&gt; 'John Doe',
+        'email' =&gt; 'john@example.com',
+        'profile' =&gt; [
+            'avatar' =&gt; 'john.jpg',
+            'settings' =&gt; ['theme' =&gt; 'dark', 'notifications' =&gt; true],
+        ],
+        'roles' =&gt; ['editor', 'contributor'],
+    ],
+    'products' =&gt; [
+        ['id' =&gt; 101, 'name' =&gt; 'Laptop', 'price' =&gt; 999],
+        ['id' =&gt; 102, 'name' =&gt; 'Phone', 'price' =&gt; 699],
+        ['id' =&gt; 103, 'name' =&gt; 'Headphones', 'price' =&gt; 149],
+    ],
+];
+
+// Simple property access.
+$name = Selector::get($data, 'user.name');  // &quot;John Doe&quot;
+
+// Nested properties.
+$theme = Selector::get($data, 'user.profile.settings.theme');  // &quot;dark&quot;
+
+// Array elements by index.
+$firstRole = Selector::get($data, 'user.roles[0]');  // &quot;editor&quot;
+
+// Array filtering.
+$laptop = Selector::get($data, 'products[id=101:name]');  // &quot;Laptop&quot;
+
+// With default values.
+$address = Selector::get($data, 'user.address', 'Not specified');  // &quot;Not specified&quot;
+
+// Check if a path exists.
+$hasAvatar = Selector::has($data, 'user.profile.avatar');  // true
+</code></pre>
+<h3><a id="content-writing-data" href="index.html#content-writing-data" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Writing Data</h3>
+<pre><code class="language-php">// Set a simple value.
+Selector::set($data, 'user.address', '123 Main St');
+
+// Create nested structures automatically.
+Selector::set($data, 'user.profile.settings.language', 'en');
+
+// Update array elements.
+Selector::set($data, 'products[id=101:price]', 899);
+
+// Remove a value.
+Selector::clear($data, 'user.profile.settings.notifications');
+</code></pre>
+<h3><a id="content-advanced-selector-syntax" href="index.html#content-advanced-selector-syntax" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Advanced Selector Syntax</h3>
+<pre><code class="language-php">// Conditional selectors.
+$role = Selector::get($data, '((user.type) = &quot;admin&quot; ? (admin_role) : (user_role))');
+
+// String concatenation.
+$greeting = Selector::get($data, '&quot;Hello, &quot;(user.name)&quot;!&quot;');  // &quot;Hello, John Doe!&quot;
+
+// OR operator for fallbacks.
+$contactInfo = Selector::get($data, 'user.phone||user.email');  // Uses email if phone is null
+
+// JSONPath integration.
+$expensiveProducts = Selector::get($data, '$.products[?(@.price &gt; 500)].name');  // [&quot;Laptop&quot;, &quot;Phone&quot;]
+
+// JMESPath integration.
+$productNames = Selector::get($data, 'jmespath:products[*].name');  // [&quot;Laptop&quot;, &quot;Phone&quot;, &quot;Headphones&quot;]
+</code></pre>
+<h2><a id="content-contributing" href="index.html#content-contributing" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Contributing</h2>
+<p>Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.</p>
+<h2><a id="content-license" href="index.html#content-license" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>License</h2>
+<p>This package is open-sourced software licensed under the <a rel="nofollow noopener noreferrer" target="_blank" class="external-link" href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
+</div>
+</div>
+                </main>
+                <div class="col-md-2 py-4">
+                    <div class="list-group mb-4">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                            <div class="fw-bold">Package Info</div>
+                            <span class="smal text-muted">derafu/selector</span>
+                            </div>
+                        </li>
+                        <a class="list-group-item list-group-item-action active" href="index.html">
+                            README
+                        </a>
+                    </div>
+                    <div class="list-group mb-4">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                            <div class="fw-bold">Docs</div>
+                            <span class="smal text-muted">Guides & Examples</span>
+                            </div>
+                        </li>
+
+                        <a class="list-group-item list-group-item-action " href="basic-usage-guide.html">
+                            Basic Usage Guide
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="arrays-and-filters-guide.html">
+                            Working with Arrays and Filters
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="advanced-syntax-guide.html">
+                            Advanced Selector Syntax Guide
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="jsonpath-guide.html">
+                            JSONPath Integration
+                        </a>
+                        <a class="list-group-item list-group-item-action " href="jmespath-guide.html">
+                            JMESPath Integration
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+            <div id="footer-container"></div>
+<script src="https://derafu.org/foundation/js/derafu.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    </body>
+</html>
