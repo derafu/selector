@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Derafu: Selector - Elegant Data Structure Navigation for PHP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism.min.css" rel="stylesheet" />
-    <link href="https://derafu.org/foundation/css/styles.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/command-line/prism-command-line.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/match-braces/prism-match-braces.min.css" rel="stylesheet" />
+    <link href="https://derafu.org/css/styles.min.css" rel="stylesheet" />
     </head>
-<body class="derafu-theme-earthstone">
+<body>
                 <div id="header-container" class="sticky-top"></div>
     
             <div class="container">
             <div class="row">
-                <main class="col-md-10">
+                <main class="col-md-9">
                     <div class="container py-4">
     <div class="markdown-body"><h1><a id="content-jmespath-integration-guide" href="jmespath-guide.html#content-jmespath-integration-guide" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>JMESPath Integration Guide</h1>
 <p>This guide explains how to use JMESPath with Derafu Selector for powerful data querying.</p>
@@ -44,7 +47,7 @@
 <p>All JMESPath expressions in Derafu Selector start with <code>jmespath:</code> to distinguish them from regular selectors.</p>
 <h2><a id="content-basic-jmespath-queries" href="jmespath-guide.html#content-basic-jmespath-queries" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Basic JMESPath Queries</h2>
 <p>Here are some basic JMESPath examples:</p>
-<pre><code class="language-php">use Derafu\Selector\Selector;
+<pre><code class="line-numbers match-braces language-php">use Derafu\Selector\Selector;
 
 $data = [
     'people' =&gt; [
@@ -88,7 +91,7 @@ $nyState = Selector::get($data, 'jmespath:locations.&quot;New York&quot;.state')
 <h2><a id="content-advanced-jmespath-features" href="jmespath-guide.html#content-advanced-jmespath-features" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Advanced JMESPath Features</h2>
 <p>JMESPath offers powerful filtering, projection, and transformation capabilities:</p>
 <h3><a id="content-filtering" href="jmespath-guide.html#content-filtering" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Filtering</h3>
-<pre><code class="language-php">// Filter people over age 25.
+<pre><code class="line-numbers match-braces language-php">// Filter people over age 25.
 $over25 = Selector::get($data, 'jmespath:people[?age &gt; `25`]');
 // Returns the complete person object for John.
 
@@ -109,7 +112,7 @@ $withMobile = Selector::get($data,
 // [&quot;John&quot;, &quot;Jane&quot;]
 </code></pre>
 <h3><a id="content-multi-select-and-projections" href="jmespath-guide.html#content-multi-select-and-projections" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Multi-select and Projections</h3>
-<pre><code class="language-php">// Select specific fields (projection).
+<pre><code class="line-numbers match-braces language-php">// Select specific fields (projection).
 $simplified = Selector::get($data, 'jmespath:people[*].{n: name, a: age}');
 // [{&quot;n&quot;:&quot;John&quot;,&quot;a&quot;:30}, {&quot;n&quot;:&quot;Jane&quot;,&quot;a&quot;:25}]
 
@@ -123,7 +126,7 @@ $phones = Selector::get($data, 'jmespath:people[*].phones.*');
 </code></pre>
 <h3><a id="content-functions" href="jmespath-guide.html#content-functions" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Functions</h3>
 <p>JMESPath supports a variety of built-in functions:</p>
-<pre><code class="language-php">// String functions.
+<pre><code class="line-numbers match-braces language-php">// String functions.
 $upperNames = Selector::get($data, 'jmespath:people[*].name | [*].to_upper(@)');
 // [&quot;JOHN&quot;, &quot;JANE&quot;]
 
@@ -145,7 +148,7 @@ $ages = Selector::get($data, 'jmespath:people[*].age | map(&amp;to_string(@), @)
 // [&quot;30&quot;, &quot;25&quot;]
 </code></pre>
 <h3><a id="content-slicing-and-indexing" href="jmespath-guide.html#content-slicing-and-indexing" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Slicing and Indexing</h3>
-<pre><code class="language-php">// Array slicing.
+<pre><code class="line-numbers match-braces language-php">// Array slicing.
 $firstPerson = Selector::get($data, 'jmespath:people[:1]');
 // [Complete first person object]
 
@@ -159,7 +162,7 @@ $everyOtherPerson = Selector::get($data, 'jmespath:people[::2]');
 </code></pre>
 <h2><a id="content-combining-jmespath-with-derafu-selectors" href="jmespath-guide.html#content-combining-jmespath-with-derafu-selectors" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Combining JMESPath with Derafu Selectors</h2>
 <p>You can mix JMESPath with regular Derafu selectors:</p>
-<pre><code class="language-php">// Use JMESPath to get a value and then concatenate with text.
+<pre><code class="line-numbers match-braces language-php">// Use JMESPath to get a value and then concatenate with text.
 $greeting = Selector::get($data, '&quot;Hello, &quot;(jmespath:people[0].name)&quot;!&quot;');
 // &quot;Hello, John!&quot;
 
@@ -198,7 +201,7 @@ $nameList = Selector::get($data,
 <li><strong>Recursive Descent</strong>: The <code>..</code> operator for finding elements at any level.</li>
 </ul>
 <h3><a id="content-examples-of-the-same-query-in-both" href="jmespath-guide.html#content-examples-of-the-same-query-in-both" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Examples of the Same Query in Both</h3>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'products' =&gt; [
         ['name' =&gt; 'Laptop', 'price' =&gt; 999, 'category' =&gt; 'electronics'],
         ['name' =&gt; 'Phone', 'price' =&gt; 699, 'category' =&gt; 'electronics'],
@@ -232,12 +235,21 @@ $sortedProducts = Selector::get($data,
 </div>
 </div>
                 </main>
-                <div class="col-md-2 py-4">
+                <div class="col-md-3 py-4">
                     <div class="list-group mb-4">
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <div class="ms-2 me-auto">
-                            <div class="fw-bold">Package Info</div>
-                            <span class="smal text-muted">derafu/selector</span>
+                                <div class="fw-bold">Package Info</div>
+                                <span class="smal text-muted">
+                                    <a href="https://github.com/derafu/selector" target="_blank" class="link-secondary text-decoration-none">
+                                        <i class="fa-brands fa-github"></i>
+                                        derafu/selector
+                                    </a>
+                                </span>
+                                <div class="my-2">
+                                    <img src="https://img.shields.io/github/stars/derafu/selector" alt="GitHub Repo stars">
+                                    <img src="https://img.shields.io/github/forks/derafu/selector" alt="GitHub forks">
+                                </div>
                             </div>
                         </li>
                         <a class="list-group-item list-group-item-action " href="index.html">
@@ -273,9 +285,15 @@ $sortedProducts = Selector::get($data,
         </div>
     
             <div id="footer-container"></div>
-<script src="https://derafu.org/foundation/js/derafu.js"></script>
+        <script src="https://derafu.org/js/derafu.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/show-language/prism-show-language.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/command-line/prism-command-line.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/match-braces/prism-match-braces.min.js"></script>
     </body>
 </html>

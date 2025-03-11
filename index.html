@@ -5,21 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Derafu: Selector - Elegant Data Structure Navigation for PHP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism.min.css" rel="stylesheet" />
-    <link href="https://derafu.org/foundation/css/styles.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/command-line/prism-command-line.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/match-braces/prism-match-braces.min.css" rel="stylesheet" />
+    <link href="https://derafu.org/css/styles.min.css" rel="stylesheet" />
     </head>
-<body class="derafu-theme-earthstone">
+<body>
                 <div id="header-container" class="sticky-top"></div>
     
             <div class="container">
             <div class="row">
-                <main class="col-md-10">
+                <main class="col-md-9">
                     <div class="container py-4">
     <div class="markdown-body"><h1><a id="content-derafu-selector---elegant-data-structure-navigation-for-php" href="index.html#content-derafu-selector---elegant-data-structure-navigation-for-php" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Derafu: Selector - Elegant Data Structure Navigation for PHP</h1>
-<p><a rel="nofollow noopener noreferrer" target="_blank" class="external-link" href="https://github.com/derafu/selector/actions/workflows/ci.yml?query=branch%3Amain"><img src="https://github.com/derafu/selector/actions/workflows/ci.yml/badge.svg?branch=main&amp;event=push" alt="CI Workflow" /></a>
-<a rel="nofollow noopener noreferrer" target="_blank" class="external-link" href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" /></a></p>
+<p><img src="https://img.shields.io/github/last-commit/derafu/selector/main" alt="GitHub last commit" />
+<img src="https://github.com/derafu/selector/actions/workflows/ci.yml/badge.svg?branch=main&amp;event=push" alt="CI Workflow" />
+<img src="https://img.shields.io/github/languages/code-size/derafu/selector" alt="GitHub code size in bytes" />
+<img src="https://img.shields.io/github/issues-raw/derafu/selector" alt="GitHub Issues" />
+<img src="https://poser.pugx.org/derafu/selector/downloads" alt="Total Downloads" />
+<img src="https://poser.pugx.org/derafu/selector/d/monthly" alt="Monthly Downloads" /></p>
 <p>A powerful, flexible, and efficient PHP library for querying, extracting, and modifying complex data structures using a <strong>declarative selector syntax</strong>.</p>
 <h2><a id="content-why-derafuselector" href="index.html#content-why-derafuselector" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Why Derafu\Selector?</h2>
 <h3><a id="content--a-smarter-way-to-work-with-data-structures" href="index.html#content--a-smarter-way-to-work-with-data-structures" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>🚀 <strong>A Smarter Way to Work with Data Structures</strong></h3>
@@ -75,7 +82,7 @@
 <hr />
 <h2><a id="content--overview" href="index.html#content--overview" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>🔍 Overview</h2>
 <p>Derafu Selector gives you a clean, robust way to work with nested arrays and objects in PHP. It eliminates the need for repetitive null checks, nested loops, and error-prone array access, replacing them with a powerful, declarative syntax.</p>
-<pre><code class="language-php">// Instead of this:
+<pre><code class="line-numbers match-braces language-php">// Instead of this:
 $userName = isset($data['user']) &amp;&amp; isset($data['user']['profile']) &amp;&amp; isset($data['user']['profile']['name'])
     ? $data['user']['profile']['name']
     : null;
@@ -87,7 +94,7 @@ $userName = Selector::get($data, 'user.profile.name');
 $adminEmail = Selector::get($data, 'users[role=admin:email]');
 </code></pre>
 <h2><a id="content--features" href="index.html#content--features" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>✨ Features</h2>
-<ul>
+<ul class="list-unstyled">
 <li>✅ <strong>Powerful Dot Notation</strong> - Access deeply nested data with simple paths (<code>user.profile.name</code>).</li>
 <li>✅ <strong>Array Access</strong> - Use numeric indices to access array elements (<code>items[0].name</code>).</li>
 <li>✅ <strong>Filtering</strong> - Find array elements by key/value conditions (<code>users[id=123:email]</code>).</li>
@@ -99,11 +106,11 @@ $adminEmail = Selector::get($data, 'users[role=admin:email]');
 </ul>
 <hr />
 <h2><a id="content--installation" href="index.html#content--installation" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>📦 Installation</h2>
-<pre><code class="language-bash">composer require derafu/selector
+<pre><code class="line-numbers match-braces language-bash">composer require derafu/selector
 </code></pre>
 <h2><a id="content--quick-start" href="index.html#content--quick-start" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>🚀 Quick Start</h2>
 <h3><a id="content-reading-data" href="index.html#content-reading-data" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Reading Data</h3>
-<pre><code class="language-php">use Derafu\Selector\Selector;
+<pre><code class="line-numbers match-braces language-php">use Derafu\Selector\Selector;
 
 $data = [
     'user' =&gt; [
@@ -141,7 +148,7 @@ $address = Selector::get($data, 'user.address', 'Not specified');  // &quot;Not 
 $hasAvatar = Selector::has($data, 'user.profile.avatar');  // true
 </code></pre>
 <h3><a id="content-writing-data" href="index.html#content-writing-data" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Writing Data</h3>
-<pre><code class="language-php">// Set a simple value.
+<pre><code class="line-numbers match-braces language-php">// Set a simple value.
 Selector::set($data, 'user.address', '123 Main St');
 
 // Create nested structures automatically.
@@ -154,7 +161,7 @@ Selector::set($data, 'products[id=101:price]', 899);
 Selector::clear($data, 'user.profile.settings.notifications');
 </code></pre>
 <h3><a id="content-advanced-selector-syntax" href="index.html#content-advanced-selector-syntax" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Advanced Selector Syntax</h3>
-<pre><code class="language-php">// Conditional selectors.
+<pre><code class="line-numbers match-braces language-php">// Conditional selectors.
 $role = Selector::get($data, '((user.type) = &quot;admin&quot; ? (admin_role) : (user_role))');
 
 // String concatenation.
@@ -176,12 +183,21 @@ $productNames = Selector::get($data, 'jmespath:products[*].name');  // [&quot;La
 </div>
 </div>
                 </main>
-                <div class="col-md-2 py-4">
+                <div class="col-md-3 py-4">
                     <div class="list-group mb-4">
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <div class="ms-2 me-auto">
-                            <div class="fw-bold">Package Info</div>
-                            <span class="smal text-muted">derafu/selector</span>
+                                <div class="fw-bold">Package Info</div>
+                                <span class="smal text-muted">
+                                    <a href="https://github.com/derafu/selector" target="_blank" class="link-secondary text-decoration-none">
+                                        <i class="fa-brands fa-github"></i>
+                                        derafu/selector
+                                    </a>
+                                </span>
+                                <div class="my-2">
+                                    <img src="https://img.shields.io/github/stars/derafu/selector" alt="GitHub Repo stars">
+                                    <img src="https://img.shields.io/github/forks/derafu/selector" alt="GitHub forks">
+                                </div>
                             </div>
                         </li>
                         <a class="list-group-item list-group-item-action active" href="index.html">
@@ -217,9 +233,15 @@ $productNames = Selector::get($data, 'jmespath:products[*].name');  // [&quot;La
         </div>
     
             <div id="footer-container"></div>
-<script src="https://derafu.org/foundation/js/derafu.js"></script>
+        <script src="https://derafu.org/js/derafu.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/show-language/prism-show-language.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/command-line/prism-command-line.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/match-braces/prism-match-braces.min.js"></script>
     </body>
 </html>

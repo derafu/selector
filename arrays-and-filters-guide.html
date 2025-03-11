@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Derafu: Selector - Elegant Data Structure Navigation for PHP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism.min.css" rel="stylesheet" />
-    <link href="https://derafu.org/foundation/css/styles.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/command-line/prism-command-line.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/match-braces/prism-match-braces.min.css" rel="stylesheet" />
+    <link href="https://derafu.org/css/styles.min.css" rel="stylesheet" />
     </head>
-<body class="derafu-theme-earthstone">
+<body>
                 <div id="header-container" class="sticky-top"></div>
     
             <div class="container">
             <div class="row">
-                <main class="col-md-10">
+                <main class="col-md-9">
                     <div class="container py-4">
     <div class="markdown-body"><h1><a id="content-working-with-arrays-and-filters" href="arrays-and-filters-guide.html#content-working-with-arrays-and-filters" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Working with Arrays and Filters</h1>
 <p>This guide focuses on techniques for working with arrays and using filters in Derafu Selector.</p>
@@ -41,7 +44,7 @@
 </ul>
 <h2><a id="content-basic-array-access" href="arrays-and-filters-guide.html#content-basic-array-access" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Basic Array Access</h2>
 <p>Arrays can be accessed using both dot notation and square bracket syntax:</p>
-<pre><code class="language-php">use Derafu\Selector\Selector;
+<pre><code class="line-numbers match-braces language-php">use Derafu\Selector\Selector;
 
 $data = [
     'items' =&gt; ['apple', 'banana', 'cherry'],
@@ -65,7 +68,7 @@ $nonExistent = Selector::get($data, 'items[5]');
 // null
 </code></pre>
 <h2><a id="content-numeric-indexing" href="arrays-and-filters-guide.html#content-numeric-indexing" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Numeric Indexing</h2>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'matrix' =&gt; [
         [1, 2, 3],
         [4, 5, 6],
@@ -89,7 +92,7 @@ $firstRowThirdElement = Selector::get($data, 'matrix[0][2]');
 </code></pre>
 <h2><a id="content-filtering-arrays-by-condition" href="arrays-and-filters-guide.html#content-filtering-arrays-by-condition" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Filtering Arrays by Condition</h2>
 <p>The most powerful feature for array handling is filtering by key/value conditions:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'users' =&gt; [
         ['id' =&gt; 1, 'name' =&gt; 'John', 'role' =&gt; 'admin'],
         ['id' =&gt; 2, 'name' =&gt; 'Jane', 'role' =&gt; 'user'],
@@ -111,7 +114,7 @@ $nonExistent = Selector::get($data, 'users[id=99:name]');
 </code></pre>
 <h3><a id="content-syntax-for-dependent-selectors" href="arrays-and-filters-guide.html#content-syntax-for-dependent-selectors" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Syntax for Dependent Selectors</h3>
 <p>The syntax for array filtering with dependent selectors is:</p>
-<pre><code>arrayKey[requiredKey=requiredValue:dependentKey]
+<pre><code class="line-numbers match-braces">arrayKey[requiredKey=requiredValue:dependentKey]
 </code></pre>
 <p>Where:</p>
 <ul>
@@ -122,7 +125,7 @@ $nonExistent = Selector::get($data, 'users[id=99:name]');
 </ul>
 <h2><a id="content-complex-filtering" href="arrays-and-filters-guide.html#content-complex-filtering" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Complex Filtering</h2>
 <p>You can combine filters with further navigation:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'orders' =&gt; [
         [
             'id' =&gt; 1001,
@@ -168,7 +171,7 @@ $mousePrice = Selector::get($data, 'orders[id=1001:items][product=Mouse:price]')
 </code></pre>
 <h2><a id="content-nested-arrays" href="arrays-and-filters-guide.html#content-nested-arrays" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Nested Arrays</h2>
 <p>For deeply nested structures:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'departments' =&gt; [
         [
             'name' =&gt; 'Engineering',
@@ -199,7 +202,7 @@ $charlieId = Selector::get($data,
 </code></pre>
 <h2><a id="content-array-operations" href="arrays-and-filters-guide.html#content-array-operations" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Array Operations</h2>
 <h3><a id="content-writing-to-arrays" href="arrays-and-filters-guide.html#content-writing-to-arrays" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Writing to Arrays</h3>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'users' =&gt; [
         ['id' =&gt; 1, 'name' =&gt; 'John'],
         ['id' =&gt; 2, 'name' =&gt; 'Jane'],
@@ -223,7 +226,7 @@ Selector::set($data, 'users[id=4:name]', 'Alice');
 // Adds a new element to $data['users'] with id=4 and name='Alice'
 </code></pre>
 <h3><a id="content-clearing-array-elements" href="arrays-and-filters-guide.html#content-clearing-array-elements" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Clearing Array Elements</h3>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'users' =&gt; [
         ['id' =&gt; 1, 'name' =&gt; 'John', 'email' =&gt; 'john@example.com'],
         ['id' =&gt; 2, 'name' =&gt; 'Jane', 'email' =&gt; 'jane@example.com'],
@@ -258,7 +261,7 @@ Selector::clear($data, 'teams[id=1:members]');
 </code></pre>
 <h3><a id="content-working-with-mixed-array-types" href="arrays-and-filters-guide.html#content-working-with-mixed-array-types" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Working with Mixed Array Types</h3>
 <p>Selector handles both associative and indexed arrays seamlessly:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'products' =&gt; [
         'electronics' =&gt; [
             ['id' =&gt; 'e1', 'name' =&gt; 'Laptop', 'price' =&gt; 999],
@@ -285,7 +288,7 @@ $secondBookName = Selector::get($data, 'products.books[1].name');
 </code></pre>
 <h3><a id="content-handling-empty-or-non-existent-arrays" href="arrays-and-filters-guide.html#content-handling-empty-or-non-existent-arrays" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Handling Empty or Non-existent Arrays</h3>
 <p>Selector provides safe handling for empty or non-existent arrays:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'categories' =&gt; [
         'active' =&gt; [
             ['id' =&gt; 1, 'name' =&gt; 'Electronics'],
@@ -313,7 +316,7 @@ $result = Selector::get($data, 'categories.archived[0].name', 'Not found');
 </code></pre>
 <h3><a id="content-modifying-array-elements-in-place" href="arrays-and-filters-guide.html#content-modifying-array-elements-in-place" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Modifying Array Elements in Place</h3>
 <p>You can modify array elements directly:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'cart' =&gt; [
         ['id' =&gt; 'p1', 'name' =&gt; 'Laptop', 'quantity' =&gt; 1],
         ['id' =&gt; 'p2', 'name' =&gt; 'Mouse', 'quantity' =&gt; 2],
@@ -350,12 +353,21 @@ Selector::set($data, 'orders[id=1:items][product=Laptop:price]', 899);
 </div>
 </div>
                 </main>
-                <div class="col-md-2 py-4">
+                <div class="col-md-3 py-4">
                     <div class="list-group mb-4">
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <div class="ms-2 me-auto">
-                            <div class="fw-bold">Package Info</div>
-                            <span class="smal text-muted">derafu/selector</span>
+                                <div class="fw-bold">Package Info</div>
+                                <span class="smal text-muted">
+                                    <a href="https://github.com/derafu/selector" target="_blank" class="link-secondary text-decoration-none">
+                                        <i class="fa-brands fa-github"></i>
+                                        derafu/selector
+                                    </a>
+                                </span>
+                                <div class="my-2">
+                                    <img src="https://img.shields.io/github/stars/derafu/selector" alt="GitHub Repo stars">
+                                    <img src="https://img.shields.io/github/forks/derafu/selector" alt="GitHub forks">
+                                </div>
                             </div>
                         </li>
                         <a class="list-group-item list-group-item-action " href="index.html">
@@ -391,9 +403,15 @@ Selector::set($data, 'orders[id=1:items][product=Laptop:price]', 899);
         </div>
     
             <div id="footer-container"></div>
-<script src="https://derafu.org/foundation/js/derafu.js"></script>
+        <script src="https://derafu.org/js/derafu.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/show-language/prism-show-language.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/command-line/prism-command-line.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/match-braces/prism-match-braces.min.js"></script>
     </body>
 </html>

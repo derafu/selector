@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Derafu: Selector - Elegant Data Structure Navigation for PHP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown-light.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism.min.css" rel="stylesheet" />
-    <link href="https://derafu.org/foundation/css/styles.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/command-line/prism-command-line.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/match-braces/prism-match-braces.min.css" rel="stylesheet" />
+    <link href="https://derafu.org/css/styles.min.css" rel="stylesheet" />
     </head>
-<body class="derafu-theme-earthstone">
+<body>
                 <div id="header-container" class="sticky-top"></div>
     
             <div class="container">
             <div class="row">
-                <main class="col-md-10">
+                <main class="col-md-9">
                     <div class="container py-4">
     <div class="markdown-body"><h1><a id="content-advanced-selector-syntax-guide" href="advanced-syntax-guide.html#content-advanced-selector-syntax-guide" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Advanced Selector Syntax Guide</h1>
 <p>This guide covers the advanced selector syntax features that make Derafu Selector powerful for complex data manipulation.</p>
@@ -30,7 +33,7 @@
 </ul>
 <h2><a id="content-string-literals-and-concatenation" href="advanced-syntax-guide.html#content-string-literals-and-concatenation" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>String Literals and Concatenation</h2>
 <p>You can include literal strings in your selectors and concatenate them with values from your data:</p>
-<pre><code class="language-php">$data = ['user' =&gt; ['name' =&gt; 'John']];
+<pre><code class="line-numbers match-braces language-php">$data = ['user' =&gt; ['name' =&gt; 'John']];
 
 // Simple string concatenation.
 $greeting = Selector::get($data, '&quot;Hello, &quot;(user.name)&quot;!&quot;');
@@ -42,7 +45,7 @@ $message = Selector::get($data, '&quot;User &quot;(user.name)&quot; logged in at
 </code></pre>
 <h2><a id="content-or-operator-for-fallbacks" href="advanced-syntax-guide.html#content-or-operator-for-fallbacks" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>OR Operator for Fallbacks</h2>
 <p>The <code>||</code> operator provides fallback values when a selector path doesn’t exist or returns null:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'user' =&gt; [
         'name' =&gt; 'John',
         'email' =&gt; 'john@example.com',
@@ -68,7 +71,7 @@ $phoneDisplay = Selector::get($data, '&quot;Phone: &quot;(user.phone||&quot;N/A&
 </code></pre>
 <h2><a id="content-conditional-ternary-selectors" href="advanced-syntax-guide.html#content-conditional-ternary-selectors" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Conditional (Ternary) Selectors</h2>
 <p>Conditionals let you choose between different selector paths based on conditions:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'user' =&gt; [
         'type' =&gt; 'admin',
         'admin_role' =&gt; 'super_admin',
@@ -94,7 +97,7 @@ $grade = Selector::get($data,
 </code></pre>
 <h2><a id="content-dependent-selectors" href="advanced-syntax-guide.html#content-dependent-selectors" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Dependent Selectors</h2>
 <p>Find and access specific elements in arrays based on key/value matching:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'users' =&gt; [
         ['id' =&gt; 101, 'name' =&gt; 'John', 'email' =&gt; 'john@example.com'],
         ['id' =&gt; 102, 'name' =&gt; 'Jane', 'email' =&gt; 'jane@example.com'],
@@ -143,7 +146,7 @@ $catName = Selector::get($data, 'categories[id=cat-1:name]');
 </code></pre>
 <h2><a id="content-comparison-operators" href="advanced-syntax-guide.html#content-comparison-operators" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Comparison Operators</h2>
 <p>Conditional selectors support several comparison operators:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'product' =&gt; [
         'price' =&gt; 50,
         'stock' =&gt; 10,
@@ -190,7 +193,7 @@ $hasDescription = Selector::get($data,
 </code></pre>
 <h2><a id="content-special-functions" href="advanced-syntax-guide.html#content-special-functions" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Special Functions</h2>
 <p>The selector syntax includes several special functions:</p>
-<pre><code class="language-php">$data = [
+<pre><code class="line-numbers match-braces language-php">$data = [
     'product' =&gt; [
         'name' =&gt; 'Gadget',
         'price' =&gt; 49.99,
@@ -219,7 +222,7 @@ $hasDescription = Selector::get($data,
 </code></pre>
 <h2><a id="content-parentheses-and-escaping" href="advanced-syntax-guide.html#content-parentheses-and-escaping" class="text-decoration-none small text-muted" aria-hidden="true" title="Permalink"><i class="fa-solid fa-link"></i> </a>Parentheses and Escaping</h2>
 <p>The selector syntax uses parentheses and quotes extensively:</p>
-<pre><code class="language-php">// (selector) extracts a value from the data
+<pre><code class="line-numbers match-braces language-php">// (selector) extracts a value from the data
 // &quot;string&quot; is a literal string
 
 $data = ['message' =&gt; 'Hello World'];
@@ -246,12 +249,21 @@ $nested = Selector::get($data, '((message) = &quot;Hello World&quot; ? (&quot;Gr
 </div>
 </div>
                 </main>
-                <div class="col-md-2 py-4">
+                <div class="col-md-3 py-4">
                     <div class="list-group mb-4">
                         <li class="list-group-item d-flex justify-content-between align-items-start">
                             <div class="ms-2 me-auto">
-                            <div class="fw-bold">Package Info</div>
-                            <span class="smal text-muted">derafu/selector</span>
+                                <div class="fw-bold">Package Info</div>
+                                <span class="smal text-muted">
+                                    <a href="https://github.com/derafu/selector" target="_blank" class="link-secondary text-decoration-none">
+                                        <i class="fa-brands fa-github"></i>
+                                        derafu/selector
+                                    </a>
+                                </span>
+                                <div class="my-2">
+                                    <img src="https://img.shields.io/github/stars/derafu/selector" alt="GitHub Repo stars">
+                                    <img src="https://img.shields.io/github/forks/derafu/selector" alt="GitHub forks">
+                                </div>
                             </div>
                         </li>
                         <a class="list-group-item list-group-item-action " href="index.html">
@@ -287,9 +299,15 @@ $nested = Selector::get($data, '((message) = &quot;Hello World&quot; ? (&quot;Gr
         </div>
     
             <div id="footer-container"></div>
-<script src="https://derafu.org/foundation/js/derafu.js"></script>
+        <script src="https://derafu.org/js/derafu.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/show-language/prism-show-language.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/command-line/prism-command-line.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/match-braces/prism-match-braces.min.js"></script>
     </body>
 </html>
