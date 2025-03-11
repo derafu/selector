@@ -1,7 +1,11 @@
 # Derafu: Selector - Elegant Data Structure Navigation for PHP
 
-[![CI Workflow](https://github.com/derafu/selector/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/derafu/selector/actions/workflows/ci.yml?query=branch%3Amain)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+![GitHub last commit](https://img.shields.io/github/last-commit/derafu/selector/main)
+![CI Workflow](https://github.com/derafu/selector/actions/workflows/ci.yml/badge.svg?branch=main&event=push)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/derafu/selector)
+![GitHub Issues](https://img.shields.io/github/issues-raw/derafu/selector)
+![Total Downloads](https://poser.pugx.org/derafu/selector/downloads)
+![Monthly Downloads](https://poser.pugx.org/derafu/selector/d/monthly)
 
 A powerful, flexible, and efficient PHP library for querying, extracting, and modifying complex data structures using a **declarative selector syntax**.
 
@@ -46,6 +50,7 @@ $adminEmail = Selector::get($data, 'users[role=admin:email]');
 
 ## ✨ Features
 
+{.list-unstyled}
 - ✅ **Powerful Dot Notation** - Access deeply nested data with simple paths (`user.profile.name`).
 - ✅ **Array Access** - Use numeric indices to access array elements (`items[0].name`).
 - ✅ **Filtering** - Find array elements by key/value conditions (`users[id=123:email]`).
