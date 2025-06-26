@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * Derafu: Selector - Elegant Data Structure Navigation for PHP.
  *
- * Copyright (c) 2025 Esteban De La Fuente Rubio / Derafu <https://www.derafu.org>
+ * Copyright (c) 2025 Esteban De La Fuente Rubio / Derafu <https://www.derafu.dev>
  * Licensed under the MIT License.
  * See LICENSE file for more details.
  */
@@ -24,16 +24,6 @@ use Derafu\Selector\Exception\EvaluatorException;
 final class ConditionEvaluator
 {
     /**
-     * List of supported operators.
-     *
-     * @var array<string>
-     */
-    private const SUPPORTED_OPERATORS = [
-        '=', '==', '!=', '<>', '>', '>=', '<', '<=',
-        'contains', 'length', 'is',
-    ];
-
-    /**
      * Evaluates a condition using the specified operator and values.
      *
      * @param mixed $valueA First value to compare.
@@ -44,10 +34,6 @@ final class ConditionEvaluator
      */
     public function evaluate(mixed $valueA, string $operator, mixed $valueB): bool
     {
-        if (!in_array($operator, self::SUPPORTED_OPERATORS)) {
-            throw new EvaluatorException("Unsupported operator: {$operator}");
-        }
-
         // Convert boolean values to strings for consistent comparison.
         if (is_bool($valueA)) {
             $valueA = $valueA ? 'true' : 'false';
@@ -145,8 +131,18 @@ final class ConditionEvaluator
     private function evaluateContains(mixed $valueA, mixed $valueB): bool
     {
         if (is_array($valueA)) {
-            $valueB = is_numeric($valueB) ? (float)trim($valueB, '"') : (string)$valueB;
-            return in_array($valueB, array_map(fn ($v) => is_numeric($v) ? (float)$v : (string)$v, $valueA));
+            $valueB = is_numeric($valueB)
+                ? (float) trim($valueB, '"')
+                : (string) $valueB
+            ;
+
+            return in_array(
+                $valueB,
+                array_map(
+                    fn ($v) => is_numeric($v) ? (float)$v : (string)$v,
+                    $valueA
+                )
+            );
         }
 
         return str_contains((string)$valueA, (string)$valueB);
