@@ -25,14 +25,14 @@
         }
     },
     "require": {
-        "php": "^8.3",
+        "php": "^8.5",
         "derafu/translation": "dev-main"
     },
     "require-dev": {
         "ext-xdebug": "*",
-        "friendsofphp/php-cs-fixer": "^3.63",
+        "friendsofphp/php-cs-fixer": "^3.94",
         "phpstan/phpstan": "^1.12",
-        "phpunit/phpunit": "^11.4",
+        "phpunit/phpunit": "^11.5",
         "mtdowling/jmespath.php": "^2.8",
         "galbar/jsonpath": "^3.0"
     },
