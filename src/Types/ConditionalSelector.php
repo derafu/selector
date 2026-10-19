@@ -68,7 +68,7 @@ final class ConditionalSelector implements SelectorTypeInterface
      * First evaluates the condition, then delegates to either the true
      * or false selector based on the result.
      *
-     * @param array $data The data structure to read from.
+     * @param array<array-key, mixed> $data The data structure to read from.
      * @return mixed The value from the chosen selector path.
      * @throws SelectorException If condition evaluation fails.
      */
@@ -89,7 +89,7 @@ final class ConditionalSelector implements SelectorTypeInterface
      * Evaluates the condition and then delegates the write operation
      * to the appropriate selector.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param mixed $value The value to write.
      * @throws SelectorException If condition evaluation fails.
      */
@@ -110,7 +110,7 @@ final class ConditionalSelector implements SelectorTypeInterface
      * Evaluates the condition and then delegates the clear operation
      * to the appropriate selector.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @throws SelectorException If condition evaluation fails.
      */
     public function clear(array &$data): void
@@ -130,7 +130,7 @@ final class ConditionalSelector implements SelectorTypeInterface
      * Gets the condition value using a temporary selector and evaluates it
      * against the operator and operator value.
      *
-     * @param array $data The data structure to evaluate against.
+     * @param array<array-key, mixed> $data The data structure to evaluate against.
      * @return bool The result of the condition evaluation.
      * @throws SelectorException If condition evaluation fails.
      */

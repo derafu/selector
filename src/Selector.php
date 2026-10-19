@@ -56,7 +56,7 @@ final class Selector
     /**
      * Sets a value at the specified selector path.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param string $selector The selector path where to set the value.
      * @param mixed $value The value to set.
      * @throws SelectorException If the selector is invalid or operation fails.
@@ -72,7 +72,7 @@ final class Selector
     /**
      * Gets a value from the specified selector path.
      *
-     * @param array $data The data structure to read from.
+     * @param array<array-key, mixed> $data The data structure to read from.
      * @param string $selector The selector path to retrieve.
      * @param mixed $default Default value if selector doesn't exist.
      * @return mixed The value at the selector path or the default value.
@@ -91,7 +91,7 @@ final class Selector
     /**
      * Checks if a value exists at the specified selector path.
      *
-     * @param array $data The data structure to check.
+     * @param array<array-key, mixed> $data The data structure to check.
      * @param string $selector The selector path to verify.
      * @return bool True if the selector exists and has a non-null value.
      * @throws SelectorException If the selector is invalid.
@@ -104,7 +104,7 @@ final class Selector
     /**
      * Removes a value at the specified selector path.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param string $selector The selector path to clear.
      * @throws SelectorException If the selector is invalid or operation fails.
      */

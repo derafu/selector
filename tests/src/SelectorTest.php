@@ -48,6 +48,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Writer::class)]
 class SelectorTest extends TestCase
 {
+    /** @return array<array-key, array{array<array-key, mixed>, string, mixed}> */
     public static function provideGetSelector(): array
     {
         $test = require __DIR__ . '/../fixtures/selector_get.php';
@@ -65,6 +66,12 @@ class SelectorTest extends TestCase
         return $getSelectors;
     }
 
+    /**
+     * @return array<array-key, array{
+     *     array<array-key, mixed>,
+     *     array<array-key, array{selector: string, value: mixed, expected: array<array-key, mixed>}>
+     * }>
+     */
     public static function provideSetSelector(): array
     {
         $tests = require __DIR__ . '/../fixtures/selector_set.php';
@@ -81,6 +88,11 @@ class SelectorTest extends TestCase
         return $setSelectors;
     }
 
+    /**
+     * @param array<array-key, mixed> $data
+     * @param string $selector
+     * @param mixed $expected
+     */
     #[DataProvider('provideGetSelector')]
     public function testSelectorGet($data, $selector, $expected): void
     {
@@ -88,6 +100,10 @@ class SelectorTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @param array<array-key, mixed> $data
+     * @param array<array-key, array{selector: string, value: mixed, expected: array<array-key, mixed>}> $cases
+     */
     #[DataProvider('provideSetSelector')]
     public function testSelectorSet($data, $cases): void
     {

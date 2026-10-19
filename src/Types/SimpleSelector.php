@@ -53,7 +53,7 @@ final class SimpleSelector implements SelectorTypeInterface
      *
      * Handles both direct key access and nested paths through recursion.
      *
-     * @param array $data The data structure to read from.
+     * @param array<array-key, mixed> $data The data structure to read from.
      * @return mixed The value found at the selector's path or null if not found.
      */
     public function read(array $data): mixed
@@ -82,7 +82,7 @@ final class SimpleSelector implements SelectorTypeInterface
      *
      * Creates intermediate arrays as needed for nested paths.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param mixed $value The value to write.
      * @throws SelectorException If trying to traverse through a non-array value.
      */
@@ -98,7 +98,10 @@ final class SimpleSelector implements SelectorTypeInterface
             // Ensure we can traverse through the current value.
             if (!is_array($data[$this->key])) {
                 throw new SelectorException(
-                    "Cannot traverse through non-array value at key '{$this->key}'"
+                    [
+                        "Cannot traverse through non-array value at key ''{key}''",
+                        'key' => $this->key,
+                    ]
                 );
             }
 
@@ -124,7 +127,7 @@ final class SimpleSelector implements SelectorTypeInterface
      *
      * For nested paths, also removes empty parent arrays.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      */
     public function clear(array &$data): void
     {

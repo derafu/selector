@@ -54,7 +54,7 @@ final class JsonPathSelector implements SelectorTypeInterface
     /**
      * Reads values from the data structure using JSONPath.
      *
-     * @param array $data The data structure to read from.
+     * @param array<array-key, mixed> $data The data structure to read from.
      * @return mixed The value(s) matching the JSONPath expression.
      * @throws SelectorException If the JSONPath expression is invalid.
      */
@@ -77,7 +77,10 @@ final class JsonPathSelector implements SelectorTypeInterface
             return $result;
         } catch (Exception $e) {
             throw new SelectorException(
-                "Invalid JSONPath expression: {$this->expression}",
+                [
+                    'Invalid JSONPath expression: {expression}',
+                    'expression' => $this->expression,
+                ],
                 0,
                 $e
             );
@@ -87,7 +90,7 @@ final class JsonPathSelector implements SelectorTypeInterface
     /**
      * Writing with JSONPath is not supported.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param mixed $value The value to write.
      * @throws UnsupportedOperationException Always throws as operation is not supported.
      */
@@ -101,7 +104,7 @@ final class JsonPathSelector implements SelectorTypeInterface
     /**
      * Clearing with JSONPath is not supported.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @throws UnsupportedOperationException Always throws as operation is not supported.
      */
     public function clear(array &$data): void

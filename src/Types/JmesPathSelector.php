@@ -59,7 +59,7 @@ final class JmesPathSelector implements SelectorTypeInterface
     /**
      * Reads values from the data structure using JMESPath.
      *
-     * @param array $data The data structure to read from.
+     * @param array<array-key, mixed> $data The data structure to read from.
      * @return mixed The value(s) matching the JMESPath expression.
      * @throws SelectorException If the JMESPath expression is invalid.
      */
@@ -78,7 +78,10 @@ final class JmesPathSelector implements SelectorTypeInterface
             };
         } catch (Exception $e) {
             throw new SelectorException(
-                "Invalid JMESPath expression: {$this->expression}",
+                [
+                    'Invalid JMESPath expression: {expression}',
+                    'expression' => $this->expression,
+                ],
                 0,
                 $e
             );
@@ -88,7 +91,7 @@ final class JmesPathSelector implements SelectorTypeInterface
     /**
      * Writing with JMESPath is not supported.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param mixed $value The value to write.
      * @throws UnsupportedOperationException Always throws as operation is not supported.
      */
@@ -102,7 +105,7 @@ final class JmesPathSelector implements SelectorTypeInterface
     /**
      * Clearing with JMESPath is not supported.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @throws UnsupportedOperationException Always throws as operation is not supported.
      */
     public function clear(array &$data): void

@@ -44,7 +44,7 @@ final class LiteralSelector implements SelectorTypeInterface
     /**
      * Returns the literal value, ignoring the input data structure.
      *
-     * @param array $data The data structure (ignored for literals).
+     * @param array<array-key, mixed> $data The data structure (ignored for literals).
      * @return mixed The literal value.
      */
     public function read(array $data): mixed
@@ -55,7 +55,7 @@ final class LiteralSelector implements SelectorTypeInterface
     /**
      * Writing with literal selectors is not supported.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param mixed $value The value to write.
      * @throws SelectorException Always throws as operation is not supported.
      */
@@ -69,7 +69,7 @@ final class LiteralSelector implements SelectorTypeInterface
     /**
      * Clearing with literal selectors is not supported.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @throws SelectorException Always throws as operation is not supported.
      */
     public function clear(array &$data): void

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Derafu\Selector\Exception;
 
+use Derafu\Translation\Contract\TranslatableInterface;
 use Derafu\Translation\Exception\Core\TranslatableRuntimeException;
 use Throwable;
 
@@ -27,12 +28,12 @@ class SelectorException extends TranslatableRuntimeException
     /**
      * Creates a new SelectorException.
      *
-     * @param string $message The exception message.
+     * @param string|array<int|string, mixed>|TranslatableInterface $message The exception message.
      * @param int $code The exception code (optional).
      * @param Throwable|null $previous Previous exception if any.
      */
     public function __construct(
-        string $message = '',
+        string|array|TranslatableInterface $message = '',
         int $code = 0,
         ?Throwable $previous = null
     ) {

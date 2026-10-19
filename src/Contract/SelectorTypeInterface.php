@@ -24,7 +24,7 @@ interface SelectorTypeInterface
     /**
      * Reads a value from the data structure using this selector.
      *
-     * @param array $data The data structure to read from.
+     * @param array<array-key, mixed> $data The data structure to read from.
      * @return mixed The value found at the selector's path.
      */
     public function read(array $data): mixed;
@@ -32,7 +32,7 @@ interface SelectorTypeInterface
     /**
      * Writes a value to the data structure using this selector.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param mixed $value The value to write.
      * @return void
      */
@@ -41,7 +41,7 @@ interface SelectorTypeInterface
     /**
      * Clears (removes) a value from the data structure at this selector's path.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @return void
      */
     public function clear(array &$data): void;

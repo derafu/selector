@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Derafu\Selector\Exception;
 
+use Derafu\Translation\Contract\TranslatableInterface;
+use Derafu\Translation\TranslatableMessage;
 use Throwable;
 
 /**
@@ -26,19 +28,22 @@ class UnsupportedOperationException extends SelectorException
     /**
      * Creates a new UnsupportedOperationException.
      *
-     * @param string $message The exception message.
+     * @param string|array<int|string, mixed>|TranslatableInterface $message The exception message.
      * @param int $code The exception code (optional).
      * @param Throwable|null $previous Previous exception if any.
      */
     public function __construct(
-        string $message = '',
+        string|array|TranslatableInterface $message = '',
         int $code = 0,
         ?Throwable $previous = null
     ) {
-        parent::__construct(
-            "Unsupported operation: {$message}",
-            $code,
-            $previous
+        parent::__construct($message, $code, $previous);
+
+        $this->translatable = new TranslatableMessage(
+            'Unsupported operation: {message}',
+            ['message' => $this->translatable],
+            'errors'
         );
+        $this->message = (string) $this->translatable;
     }
 }

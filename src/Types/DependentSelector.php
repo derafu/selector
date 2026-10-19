@@ -15,6 +15,7 @@ namespace Derafu\Selector\Types;
 use Derafu\Selector\Contract\SelectorTypeInterface;
 use Derafu\Selector\Exception\SelectorException;
 use Derafu\Selector\Selector;
+use Stringable;
 
 /**
  * Implements dependent selector type (e.g., "users[id=123:name]").
@@ -61,7 +62,7 @@ final class DependentSelector implements SelectorTypeInterface
      * Searches for an element in an array where requiredKey matches requiredValue,
      * then accesses the dependentKey from that element.
      *
-     * @param array $data The data structure to read from.
+     * @param array<array-key, mixed> $data The data structure to read from.
      * @return mixed The value from the matching element or null if not found.
      */
     public function read(array $data): mixed
@@ -101,7 +102,7 @@ final class DependentSelector implements SelectorTypeInterface
      * Finds or creates an element matching the required condition, then writes
      * the value to its dependent key.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param mixed $value The value to write.
      * @throws SelectorException If trying to traverse through a non-array value.
      */
@@ -115,14 +116,17 @@ final class DependentSelector implements SelectorTypeInterface
         // Ensure dictionary key points to an array.
         if (!is_array($data[$this->dictionaryKey])) {
             throw new SelectorException(
-                "Cannot access array elements on non-array at key '{$this->dictionaryKey}'"
+                [
+                    "Cannot access array elements on non-array at key ''{key}''",
+                    'key' => $this->dictionaryKey,
+                ]
             );
         }
 
         // Try to find existing element.
         $found = false;
         foreach ($data[$this->dictionaryKey] as &$element) {
-            if ($this->elementMatches($element)) {
+            if (is_array($element) && $this->elementMatches($element)) {
                 $found = true;
 
                 if ($this->nextPath !== '') {
@@ -131,7 +135,10 @@ final class DependentSelector implements SelectorTypeInterface
                     }
                     if (!is_array($element[$this->dependentKey])) {
                         throw new SelectorException(
-                            "Cannot traverse through non-array value at dependent key '{$this->dependentKey}'"
+                            [
+                                "Cannot traverse through non-array value at dependent key ''{key}''",
+                                'key' => $this->dependentKey,
+                            ]
                         );
                     }
 
@@ -153,10 +160,11 @@ final class DependentSelector implements SelectorTypeInterface
         if (!$found) {
             $newElement = [
                 $this->requiredKey => $this->requiredValue,
-                $this->dependentKey => $this->nextPath !== '' ? [] : $value,
+                $this->dependentKey => $value,
             ];
 
             if ($this->nextPath !== '') {
+                $newElement[$this->dependentKey] = [];
                 $parser = Selector::getParser();
                 $nextSelector = $parser->parse($this->nextPath);
                 $nextSelector->write($newElement[$this->dependentKey], $value);
@@ -171,7 +179,7 @@ final class DependentSelector implements SelectorTypeInterface
      *
      * Finds the matching element and removes the dependent key or its nested path.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      */
     public function clear(array &$data): void
     {
@@ -182,7 +190,7 @@ final class DependentSelector implements SelectorTypeInterface
 
         // Iterate through elements to find a match.
         foreach ($data[$this->dictionaryKey] as $index => &$element) {
-            if ($this->elementMatches($element)) {
+            if (is_array($element) && $this->elementMatches($element)) {
                 if ($this->nextPath !== '') {
                     if (isset($element[$this->dependentKey]) && is_array($element[$this->dependentKey])) {
                         $parser = Selector::getParser();
@@ -215,13 +223,13 @@ final class DependentSelector implements SelectorTypeInterface
     /**
      * Finds the first element in an array that matches the required condition.
      *
-     * @param array $array The array to search in.
-     * @return array|null The matching element or null if not found.
+     * @param array<array-key, mixed> $array The array to search in.
+     * @return array<array-key, mixed>|null The matching element or null if not found.
      */
     private function findMatchingElement(array $array): ?array
     {
         foreach ($array as $element) {
-            if ($this->elementMatches($element)) {
+            if (is_array($element) && $this->elementMatches($element)) {
                 return $element;
             }
         }
@@ -233,11 +241,23 @@ final class DependentSelector implements SelectorTypeInterface
      *
      * @param mixed $element The element to check.
      * @return bool True if the element matches the condition.
+     * @throws SelectorException If the comparison key contains an unsupported type.
      */
     private function elementMatches(mixed $element): bool
     {
-        return is_array($element) &&
-               isset($element[$this->requiredKey]) &&
-               (string)$element[$this->requiredKey] === (string)$this->requiredValue;
+        if (!is_array($element) || !isset($element[$this->requiredKey])) {
+            return false;
+        }
+
+        $value = $element[$this->requiredKey];
+        if (!is_scalar($value) && !$value instanceof Stringable) {
+            throw new SelectorException([
+                'The comparison key "{key}" must contain a bool, int, float, string, or Stringable; {type} given.',
+                'key' => $this->requiredKey,
+                'type' => get_debug_type($value),
+            ]);
+        }
+
+        return (string) $value === $this->requiredValue;
     }
 }

@@ -31,7 +31,7 @@ final class SelectorTokenizer
      *   - id/value: The actual content depending on type.
      *
      * @param string $expression The selector expression to tokenize.
-     * @return array The array of tokenized parts.
+     * @return list<array<string, string>> The array of tokenized parts.
      */
     public function tokenize(string $expression): array
     {

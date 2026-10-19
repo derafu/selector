@@ -35,7 +35,7 @@ final class Writer
     /**
      * Writes a value to a data structure using a selector.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param string $selector The selector expression.
      * @param mixed $value The value to write.
      * @throws SelectorException If the selector syntax is invalid or write fails.
@@ -51,7 +51,11 @@ final class Writer
             $selectorObj->write($data, $value);
         } catch (SelectorException $e) {
             throw new SelectorException(
-                "Failed to write using selector '{$selector}': " . $e->getMessage(),
+                [
+                    "Failed to write using selector ''{selector}'': {error}",
+                    'selector' => $selector,
+                    'error' => $e,
+                ],
                 0,
                 $e
             );

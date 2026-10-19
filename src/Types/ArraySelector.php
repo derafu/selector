@@ -53,7 +53,7 @@ final class ArraySelector implements SelectorTypeInterface
     /**
      * Reads a value from the data structure using array index access.
      *
-     * @param array $data The data structure to read from.
+     * @param array<array-key, mixed> $data The data structure to read from.
      * @return mixed The value at the specified array index or null if not found.
      */
     public function read(array $data): mixed
@@ -87,7 +87,7 @@ final class ArraySelector implements SelectorTypeInterface
      * Creates intermediate arrays as needed and handles array merging
      * when appropriate.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param mixed $value The value to write.
      * @throws SelectorException If trying to traverse through a non-array value.
      */
@@ -101,7 +101,10 @@ final class ArraySelector implements SelectorTypeInterface
         // Ensure key points to an array.
         if (!is_array($data[$this->key])) {
             throw new SelectorException(
-                "Cannot access index on non-array at key '{$this->key}'"
+                [
+                    "Cannot access index on non-array at key ''{key}''",
+                    'key' => $this->key,
+                ]
             );
         }
 
@@ -115,7 +118,10 @@ final class ArraySelector implements SelectorTypeInterface
         if ($this->nextPath !== '') {
             if (!is_array($data[$this->key][$this->index])) {
                 throw new SelectorException(
-                    "Cannot traverse through non-array value at index {$this->index}"
+                    [
+                        'Cannot traverse through non-array value at index {index}',
+                        'index' => (string) $this->index,
+                    ]
                 );
             }
 
@@ -144,7 +150,7 @@ final class ArraySelector implements SelectorTypeInterface
      *
      * Also handles cleanup of empty parent arrays.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      */
     public function clear(array &$data): void
     {

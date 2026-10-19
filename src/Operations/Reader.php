@@ -35,7 +35,7 @@ final class Reader
     /**
      * Reads a value from a data structure using a selector.
      *
-     * @param array $data The data structure to read from.
+     * @param array<array-key, mixed> $data The data structure to read from.
      * @param string $selector The selector expression.
      * @return mixed The value found at the selector path.
      * @throws SelectorException If the selector syntax is invalid.
@@ -51,7 +51,11 @@ final class Reader
             return $selectorObj->read($data);
         } catch (SelectorException $e) {
             throw new SelectorException(
-                "Failed to read using selector '{$selector}': " . $e->getMessage(),
+                [
+                    "Failed to read using selector ''{selector}'': {error}",
+                    'selector' => $selector,
+                    'error' => $e,
+                ],
                 0,
                 $e
             );

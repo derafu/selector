@@ -35,7 +35,7 @@ final class Cleaner
     /**
      * Clears (removes) a value from a data structure using a selector.
      *
-     * @param array $data The data structure to modify.
+     * @param array<array-key, mixed> $data The data structure to modify.
      * @param string $selector The selector expression.
      * @throws SelectorException If the selector syntax is invalid or clear fails.
      */
@@ -50,7 +50,11 @@ final class Cleaner
             $selectorObj->clear($data);
         } catch (SelectorException $e) {
             throw new SelectorException(
-                "Failed to clear using selector '{$selector}': " . $e->getMessage(),
+                [
+                    "Failed to clear using selector ''{selector}'': {error}",
+                    'selector' => $selector,
+                    'error' => $e,
+                ],
                 0,
                 $e
             );
