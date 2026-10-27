@@ -34,9 +34,7 @@
         "phpstan/phpstan": "^2.3",
         "phpunit/phpunit": "^13.4",
         "mtdowling/jmespath.php": "^2.9",
-        "galbar/jsonpath": "^3.0",
-        "symfony/dependency-injection": "^8.1",
-        "symfony/config": "^8.1"
+        "galbar/jsonpath": "^3.0"
     },
     "scripts": {
         "docs": "php tools/phpdocumentor run --config=phpdoc.xml",
